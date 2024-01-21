@@ -101,8 +101,8 @@ def efast_efree():
 
 
 if __name__ == '__main__':
-    take_screenshot()
     print(f"Begin at: {time.strftime("%H:%M:%S", time.localtime())}")
+    take_screenshot()
     
     cnt = 0
     while True:
