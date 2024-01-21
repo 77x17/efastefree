@@ -51,13 +51,15 @@ def findLocation(input_png, click = True):
     return False
 
 
-def efast_efree():
+def efast_efree(start_time):
     time.sleep(1)
     take_screenshot()
 
     #print("go")
     if findLocation("go.png"):
         take_screenshot()
+
+        start_time = time.time()
 
     #print("ok")
     if findLocation("ok.png", False):
@@ -68,12 +70,16 @@ def efast_efree():
         findLocation("ok.png")
 
         take_screenshot()
+
+        start_time = time.time()
         
         return
 
     #print("equation")
     while findLocation("equation.png"):
         take_screenshot()
+
+        start_time = time.time()
 
     #print("------------------------------------\nads")
     
@@ -99,6 +105,12 @@ def efast_efree():
             time.sleep(1)
             take_screenshot(1920, 1080)
 
+    if (time.time() - start_time) > 120:
+        start_time = time.time()
+        run_command("adb shell am force-stop com.efast.efree")
+        run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
+
+
 
 if __name__ == '__main__':
     take_screenshot()
@@ -112,12 +124,7 @@ if __name__ == '__main__':
 
         start_time = time.time()
         while run:
-            efast_efree()
-
-            if (time.time() - start_time) > 1800:
-                start_time = time.time()
-                run_command("adb shell am force-stop com.efast.efree")
-                run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
+            efast_efree(start_time)
 
         run_command("adb shell am force-stop com.efast.efree")
         
