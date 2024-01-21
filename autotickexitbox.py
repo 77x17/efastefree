@@ -102,15 +102,22 @@ def efast_efree():
 
 if __name__ == '__main__':
     take_screenshot()
-    print("Begin at: {}".format(time.strftime("%H:%M:%S", time.localtime())))
-    
+
     cnt = 0
     while True:
+        print("Begin at: {}".format(time.strftime("%H:%M:%S", time.localtime())))
+        
         run = True
         run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
 
+        start_time = time.time()
         while run:
             efast_efree()
+
+            if (time.time() - start_time) > 60:
+                start_time = time.time()
+                run_command("adb shell am force-stop com.efast.efree")
+                run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
 
         run_command("adb shell am force-stop com.efast.efree")
         
