@@ -114,7 +114,7 @@ if __name__ == '__main__':
         while run:
             efast_efree()
 
-            if (time.time() - start_time) > 60:
+            if (time.time() - start_time) > 1800:
                 start_time = time.time()
                 run_command("adb shell am force-stop com.efast.efree")
                 run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
