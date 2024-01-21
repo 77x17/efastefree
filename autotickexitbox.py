@@ -101,7 +101,7 @@ def efast_efree():
 
 
 if __name__ == '__main__':
-    print(f"Begin at: {time.strftime("%H:%M:%S", time.localtime())}")
+    print("Begin at: {}".format(time.strftime("%H:%M:%S", time.localtime())))
     take_screenshot()
     
     cnt = 0
@@ -119,7 +119,7 @@ if __name__ == '__main__':
         cnt = cnt + 1
         print("------------------------")
         print("Running count =", cnt)
-        print(f"From: {time.strftime("%H:%M:%S", time.localtime())}")
+        print("Stop at: {}".format(time.strftime("%H:%M:%S", time.localtime())))
         print("Sleep time.........")
         print("------------------------")
         time.sleep(3600)
