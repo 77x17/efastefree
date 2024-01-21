@@ -44,7 +44,7 @@ def findLocation(input_png, click = True):
 
         if click:            
             run_command(f"adb shell input tap {2 * x + template.shape[0]} {2 * y + template.shape[1]}")
-            print(2 * x + template.shape[0], 2 * y + template.shape[1])
+            #print(2 * x + template.shape[0], 2 * y + template.shape[1])
             
         return True
 
@@ -55,11 +55,11 @@ def efast_efree():
     time.sleep(1)
     take_screenshot()
 
-    print("go")
+    #print("go")
     if findLocation("go.png"):
         take_screenshot()
 
-    print("ok")
+    #print("ok")
     if findLocation("ok.png", False):
         if findLocation("limit.png"):
             global run
@@ -71,11 +71,11 @@ def efast_efree():
         
         return
 
-    print("equation")
+    #print("equation")
     while findLocation("equation.png"):
         take_screenshot()
 
-    print("------------------------------------\nads")
+    #print("------------------------------------\nads")
     
     for i in range(1, N_ARROW + 1):
         if findLocation(f"arrow_{i}.png"):
@@ -102,6 +102,7 @@ def efast_efree():
 
 if __name__ == '__main__':
     take_screenshot()
+    print(f"Begin at: {time.strftime("%H:%M:%S", time.localtime())}")
     
     cnt = 0
     while True:
@@ -118,6 +119,7 @@ if __name__ == '__main__':
         cnt = cnt + 1
         print("------------------------")
         print("Running count =", cnt)
+        print(f"From: {time.strftime("%H:%M:%S", time.localtime())}")
         print("Sleep time.........")
         print("------------------------")
         time.sleep(3600)
