@@ -35,7 +35,7 @@ def findLocation(input_png, click = True):
     template = cv2.resize(template, (0, 0), fx=0.5, fy=0.5)
 
     res       = cv2.matchTemplate(img_rgb, template, cv2.TM_CCOEFF_NORMED)
-    threshold = .8
+    threshold = .75
     
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
  
@@ -101,8 +101,8 @@ def efast_efree():
 
 
 if __name__ == '__main__':
-    print("Begin at: {}".format(time.strftime("%H:%M:%S", time.localtime())))
     take_screenshot()
+    print(f"Begin at: {time.strftime("%H:%M:%S", time.localtime())}")
     
     cnt = 0
     while True:
@@ -119,7 +119,7 @@ if __name__ == '__main__':
         cnt = cnt + 1
         print("------------------------")
         print("Running count =", cnt)
-        print("Stop at: {}".format(time.strftime("%H:%M:%S", time.localtime())))
+        print(f"From: {time.strftime("%H:%M:%S", time.localtime())}")
         print("Sleep time.........")
         print("------------------------")
         time.sleep(3600)
