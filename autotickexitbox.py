@@ -39,7 +39,7 @@ def findLocation(input_png, click = True):
     template = cv2.resize(template, (0, 0), fx=0.5, fy=0.5)
 
     res       = cv2.matchTemplate(img_rgb, template, cv2.TM_CCOEFF_NORMED)
-    threshold = .7
+    threshold = .75
     
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
  
@@ -47,8 +47,8 @@ def findLocation(input_png, click = True):
         x, y = max_loc
 
         if click:            
-            run_command(f"adb shell input tap {2 * x + template.shape[0]} {2 * y + template.shape[1]}")
-            #print(2 * x + template.shape[0], 2 * y + template.shape[1])
+            run_command(f"adb shell input tap {2 * x + template.shape[1]} {2 * y + template.shape[0]}")
+            # print(2 * x + template.shape[1], 2 * y + template.shape[0])
             
         return True
 
@@ -58,13 +58,13 @@ def findLocation(input_png, click = True):
 def efast_efree(start_time):
     take_screenshot()
 
-    #print("go")
+    # print("go")
     if findLocation("go.png"):
         take_screenshot()
 
         start_time[0] = time.time()
 
-    #print("ok")
+    # print("ok")
     if findLocation("ok.png", False):
         if findLocation("limit.png"):
             global run
@@ -76,7 +76,7 @@ def efast_efree(start_time):
         
         return
 
-    #print("equation")
+    # print("equation")
     while findLocation("equation.png", False):
         ans = 0
 
@@ -99,8 +99,10 @@ def efast_efree(start_time):
             if not find:
                 ans = 9
 
-        if not findLocation("ansbox.png"):
-            findLocation("ansbox_.png")
+        # print(ans)
+
+        if findLocation("ansbox.png"):
+            print("ansbox")
 
         run_command(f"adb shell input text {ans}")
 
