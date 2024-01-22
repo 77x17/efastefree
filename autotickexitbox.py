@@ -151,7 +151,7 @@ def efast_efree(start_time):
         if findLocation(f"exit_{i}.png"):
             take_screenshot(1920, 1080)
 
-    if (time.time() - start_time[0]) > 240:
+    if (time.time() - start_time[0]) > 180:
         start_time[0] = time.time()
         run_command("adb shell am force-stop com.efast.efree")
         run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
