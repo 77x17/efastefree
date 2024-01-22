@@ -81,10 +81,10 @@ def efast_efree(start_time):
 
     #print("------------------------------------\nads")
     
-    if findLocation("googleplay_1.png", False) or findLocation("googleplay_2.png", False):
-        run_command("adb shell input keyevent 4")
+    # if findLocation("googleplay_1.png", False) or findLocation("googleplay_2.png", False):
+    #     run_command("adb shell input keyevent 4")
         
-        take_screenshot()
+    #     take_screenshot()
 
     click = False
 
@@ -149,7 +149,7 @@ if __name__ == '__main__':
         run_command("adb shell input tap 0 0")  
         time.sleep(600)
         run_command("adb shell input tap 0 0")
-        time.sleep(600)
+        time.sleep(600) 
         run_command("adb shell input tap 0 0")
         time.sleep(600)
         run_command("adb shell input tap 0 0")
