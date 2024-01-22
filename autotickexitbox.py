@@ -101,8 +101,7 @@ def efast_efree(start_time):
 
         # print(ans)
 
-        if findLocation("ansbox.png"):
-            print("ansbox")
+        findLocation("ansbox.png")
 
         run_command(f"adb shell input text {ans}")
 
