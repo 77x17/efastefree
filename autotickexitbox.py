@@ -39,7 +39,7 @@ def findLocation(input_png, click = True):
     template = cv2.resize(template, (0, 0), fx=0.5, fy=0.5)
 
     res       = cv2.matchTemplate(img_rgb, template, cv2.TM_CCOEFF_NORMED)
-    threshold = .75
+    threshold = .7
     
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
  
@@ -99,7 +99,8 @@ def efast_efree(start_time):
             if not find:
                 ans = 9
 
-        findLocation("ansbox.png")
+        if not findLocation("ansbox.png"):
+            findLocation("ansbox_.png")
 
         run_command(f"adb shell input text {ans}")
 
