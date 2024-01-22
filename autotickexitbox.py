@@ -13,7 +13,7 @@ def run_command(command):
 
 
 def take_screenshot(width = 1080, height = 1920):
-    run_command("adb shell screencap /sdcard/Pictures/screenshot.raw && adb pull /sdcard/Pictures/screenshot.raw")
+    run_command("adb shell screencap /sdcard/Pictures/screenshot.raw && adb pull /sdcard/Pictures/screenshot.raw > /dev/null 2>&1")
     
     bytespp = 4
 
@@ -80,6 +80,9 @@ def efast_efree(start_time):
 
     #print("------------------------------------\nads")
     
+    if findLocation("googleplay_1.png", False) or findLocation("googleplay_2.png", False):
+        run_command("adb shell input keyevent 4")
+
     click = False
 
     for i in range(1, N_ARROW + 1):
@@ -105,7 +108,7 @@ def efast_efree(start_time):
         if findLocation(f"exit_{i}.png"):
             take_screenshot(1920, 1080)
 
-    if (time.time() - start_time[0]) > 300:
+    if (time.time() - start_time[0]) > 240:
         start_time[0] = time.time()
         run_command("adb shell am force-stop com.efast.efree")
         run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
