@@ -52,7 +52,6 @@ def findLocation(input_png, click = True):
 
 
 def efast_efree(start_time):
-    time.sleep(1)
     take_screenshot()
 
     #print("go")
@@ -69,8 +68,6 @@ def efast_efree(start_time):
 
         findLocation("ok.png")
 
-        take_screenshot()
-
         start_time[0] = time.time()
         
         return
@@ -83,26 +80,29 @@ def efast_efree(start_time):
 
     #print("------------------------------------\nads")
     
+    click = False
+
     for i in range(1, N_ARROW + 1):
         if findLocation(f"arrow_{i}.png"):
-            time.sleep(1)
             take_screenshot()
+            click = True
 
     for i in range(1, N_EXIT + 1):
         if findLocation(f"exit_{i}.png"):
-            time.sleep(1)
             take_screenshot()
+            click = True
+
+    if click:
+        return
 
     take_screenshot(1920, 1080)
 
     for i in range(1, N_ARROW + 1):
         if findLocation(f"arrow_{i}.png"):
-            time.sleep(1)
             take_screenshot()
 
     for i in range(1, N_EXIT + 1):
         if findLocation(f"exit_{i}.png"):
-            time.sleep(1)
             take_screenshot(1920, 1080)
 
     if (time.time() - start_time[0]) > 300:
@@ -140,7 +140,7 @@ if __name__ == '__main__':
         time.sleep(600)
         run_command("adb shell input tap 0 0")
         time.sleep(600)
-        run_command("adb shell input tap 0 0")
+        run_command("adb shell input tap 0 0")  
         time.sleep(600)
         run_command("adb shell input tap 0 0")
         time.sleep(600)
