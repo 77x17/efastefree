@@ -82,6 +82,8 @@ def efast_efree(start_time):
     
     if findLocation("googleplay_1.png", False) or findLocation("googleplay_2.png", False):
         run_command("adb shell input keyevent 4")
+        
+        take_screenshot()
 
     click = False
 
