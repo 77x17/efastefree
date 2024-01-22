@@ -13,7 +13,10 @@ def run_command(command):
 
 
 def take_screenshot(width = 1080, height = 1920):
+    # windows
     # run_command("adb shell screencap /sdcard/Pictures/screenshot.raw && adb pull /sdcard/Pictures/screenshot.raw")
+    
+    # termux
     run_command("adb shell screencap /sdcard/Pictures/screenshot.raw && adb pull /sdcard/Pictures/screenshot.raw > /dev/null 2>&1")
     
     bytespp = 4
@@ -74,7 +77,36 @@ def efast_efree(start_time):
         return
 
     #print("equation")
-    while findLocation("equation.png"):
+    while findLocation("equation.png", False):
+        ans = 0
+
+        find = False
+        for i in range(0, 5):
+            if findLocation(f"numleft_{i}.png", False):
+                ans += i
+                find = True
+                break
+
+        if not find:
+            ans = 9
+        else:
+            for i in range(0, 5):
+                if findLocation(f"numright_{i}.png", False):
+                    ans += i
+                    find = True
+                    break
+
+            if not find:
+                ans = 9
+
+        findLocation("ansbox.png")
+
+        run_command(f"adb shell input text {ans}")
+
+        run_command("adb shell input keyevent 4")
+
+        findLocation("equation.png")
+
         take_screenshot()
 
         start_time[0] = time.time()
