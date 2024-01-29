@@ -9,16 +9,15 @@ N_ARROW = 2
 
 
 def run_command(command):
-    subprocess.run(command, shell=True, text=True)
+    # windows
+    # subprocess.run(command + " > $null", shell=True, text=True)
+    # linux - termux
+    subprocess.run(command + " > /dev/null 2>&1", shell=True, text=True)
 
 
 def take_screenshot(width = 1080, height = 1920):
-    # windows
-    # run_command("adb shell screencap /sdcard/Pictures/screenshot.raw && adb pull /sdcard/Pictures/screenshot.raw")
-    
-    # termux
-    run_command("adb shell screencap /sdcard/Pictures/screenshot.raw && adb pull /sdcard/Pictures/screenshot.raw > /dev/null 2>&1")
-    
+    run_command("adb shell screencap /sdcard/Pictures/screenshot.raw && adb pull /sdcard/Pictures/screenshot.raw")
+   
     bytespp = 4
 
     with open('screenshot.raw', 'rb') as file:
@@ -40,7 +39,7 @@ def findLocation(input_png, click = True):
 
     res       = cv2.matchTemplate(img_rgb, template, cv2.TM_CCOEFF_NORMED)
     threshold = .77
-    
+
     min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
  
     if max_val >= threshold:
@@ -63,7 +62,7 @@ def efast_efree(start_time):
         take_screenshot()
 
         start_time[0] = time.time()
-
+        
     # print("ok")
     if findLocation("ok.png", False):
         if findLocation("limit.png"):
@@ -75,6 +74,15 @@ def efast_efree(start_time):
         start_time[0] = time.time()
         
         return
+    
+    # print("internet connection")
+    while findLocation("retry.png"):
+        take_screenshot()
+
+        if findLocation("retry.png", False):
+            time.sleep(300)
+
+        start_time[0] = time.time()
 
     # print("equation")
     while findLocation("equation.png", False):
@@ -99,8 +107,6 @@ def efast_efree(start_time):
             if not find:
                 ans = 9
 
-        # print(ans)
-
         findLocation("ansbox.png")
 
         run_command(f"adb shell input text {ans}")
@@ -113,18 +119,22 @@ def efast_efree(start_time):
 
         start_time[0] = time.time()
 
-    #print("------------------------------------\nads")
+    # print("ads")
     
     if findLocation("googleplay.png", False):
         run_command("adb shell input keyevent 4")
         
         take_screenshot()
+        
+        start_time[0] = time.time()
 
     if findLocation("googleplay_1.png", False):
         run_command("adb shell input keyevent 4")
         run_command("adb shell input keyevent 4")
 
         take_screenshot()
+        
+        start_time[0] = time.time()
         
     click = False
 
@@ -145,7 +155,7 @@ def efast_efree(start_time):
 
     for i in range(1, N_ARROW + 1):
         if findLocation(f"arrow_{i}.png"):
-            take_screenshot()
+            take_screenshot(1920, 1080)
 
     for i in range(1, N_EXIT + 1):
         if findLocation(f"exit_{i}.png"):
@@ -159,28 +169,28 @@ def efast_efree(start_time):
 
 if __name__ == '__main__':
     take_screenshot()
+    run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
 
     cnt = 0
     while True:
+        print("------------------------")
         print("Begin at: {}".format(time.strftime("%H:%M:%S", time.localtime())))
         
         run = True
-        run_command("adb shell monkey -p com.efast.efree -c android.intent.category.LAUNCHER 1")
 
         start_time = [time.time()]
         while run:
             efast_efree(start_time)
-
-        run_command("adb shell am force-stop com.efast.efree")
         
-        run_command("adb shell am start -n com.termux/.app.TermuxActivity")
+        # run_command("adb shell am force-stop com.efast.efree")
+        # run_command("adb shell am start -n com.termux/.app.TermuxActivity")
         
         cnt = cnt + 1
-        print("------------------------")
         print("Running count =", cnt)
         print("At this moment: {}".format(time.strftime("%H:%M:%S", time.localtime())))
         print("Sleep time.........")
         print("------------------------")
+        
         time.sleep(600)
         run_command("adb shell input tap 0 0")
         time.sleep(600)
@@ -193,4 +203,3 @@ if __name__ == '__main__':
         run_command("adb shell input tap 0 0")
         time.sleep(600)
         run_command("adb shell input tap 0 0")
-        
